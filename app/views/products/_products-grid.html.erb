@@ -1,0 +1,20 @@
+<%
+  base_class = "products-grid".freeze
+
+  # Optional props
+  classes = local_assigns.fetch(:classes, [])
+
+  # Classes
+  class_names = classes.push(base_class).join(" ")
+%>
+
+<ul class="<%= class_names %>">
+  <% products.each do |product| %>
+    <%= cache [I18n.locale, current_pricing_options, @taxon, product] do %>
+      <%= render ProductCardComponent.new(
+        product,
+        price: product.price_for_options(current_pricing_options),
+      ) %>
+    <% end %>
+  <% end %>
+</ul>
